@@ -1,5 +1,7 @@
 # 好好衡量 · BMI 計算機
 
+線上使用：[https://clas0429.github.io/BMI/](https://clas0429.github.io/BMI/)。GitHub Pages 從 `main` 分支根目錄發布，後續推送會自動更新。
+
 繁體中文、響應式靜態網頁。開啟 `index.html` 即可使用，不需要安裝套件或後端。
 
 也可以在專案目錄執行 `python3 -m http.server 8000`，瀏覽 http://localhost:8000。

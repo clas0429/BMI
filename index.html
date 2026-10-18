@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f5f6f0">
+  <meta name="description" content="輸入身高與體重，即時計算 BMI，了解臺灣成人健康體位區間。">
+  <title>好好衡量 · BMI 計算機</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <header class="site-header"><a class="brand" href="./"><span class="brand-icon" aria-hidden="true">◒</span> 好好衡量<span class="brand-en">WELL & BALANCED</span></a><span class="header-note"><i></i> 每個小改變，都是好的開始</span></header>
+  <main>
+    <section class="intro"><div class="eyebrow">A LITTLE CHECK-IN WITH YOURSELF</div><h1>認識身體，<br class="mobile-break">從一個數字開始<span>。</span></h1><p>不急著改變，先了解自己。<br>用身高與體重，看看你現在的健康體位。</p></section>
+    <section class="calculator" aria-label="BMI 計算機">
+      <form id="bmi-form" class="input-panel" novalidate>
+        <div class="section-heading"><span class="step">01</span><h2>你的身體數據</h2><span class="unit-badge">公制單位</span></div>
+        <p class="section-description">只要兩個數字，就能開始了解。</p>
+        <div class="field"><label for="height">身高 <span>HEIGHT</span></label><div class="number-field"><input id="height" name="height" type="number" inputmode="decimal" min="50" max="250" step="0.1" value="170" aria-describedby="height-help error"><span>cm</span></div><p id="height-help" class="field-help">輸入 50–250 公分</p></div>
+        <div class="field"><label for="weight">體重 <span>WEIGHT</span></label><div class="number-field"><input id="weight" name="weight" type="number" inputmode="decimal" min="10" max="500" step="0.1" value="65" aria-describedby="weight-help error"><span>kg</span></div><p id="weight-help" class="field-help">輸入 10–500 公斤</p></div>
+        <p id="error" class="error" role="alert"></p>
+        <button class="calculate" type="submit">計算我的 BMI <span aria-hidden="true">↗</span></button>
+        <div class="form-bottom"><span><span aria-hidden="true">⌑</span> 資料僅在你的裝置計算</span><button id="reset" type="button">重新輸入 ↺</button></div>
+      </form>
+      <div class="result-panel" aria-live="polite" aria-atomic="true">
+        <div class="result-top"><span class="eyebrow">YOUR BODY MASS INDEX</span><span class="result-icon" aria-hidden="true">✳</span></div>
+        <p class="result-label">你的 BMI 指數</p><div class="bmi-number" id="bmi-value">22.5</div>
+        <span class="status" id="status">● 健康體位</span><h2 id="result-title">剛剛好的平衡。</h2><p id="result-description">目前 BMI 落在成人健康體位區間。</p>
+        <div class="scale-wrap"><div class="scale-marker" id="scale-marker" aria-hidden="true">▼</div><div class="scale" aria-hidden="true"><span></span><span></span><span></span><span></span></div><div class="scale-labels"><span>過輕</span><span>健康</span><span>過重</span><span>肥胖</span></div><div class="scale-ticks"><span>18.5</span><span>24</span><span>27</span></div></div>
+        <div class="weight-range"><span>依你的身高，健康體重參考區間</span><strong id="healthy-range">53.5 – &lt; 69.4 <small>kg</small></strong><span class="range-note">18.5 ≤ BMI &lt; 24</span></div>
+      </div>
+    </section>
+    <section class="learn"><div class="learn-title"><span class="eyebrow">A NUMBER, NOT THE WHOLE STORY</span><h2>數字之外，也照顧自己。</h2><p>BMI 是認識體位的起點，<br>健康還有更多面向。</p></div><article><span class="learn-icon" aria-hidden="true">↗</span><h3>BMI 怎麼計算？</h3><p>體重（公斤）÷ 身高（公尺）的平方。<br>例如 65 ÷ (1.7 × 1.7) ≈ 22.5。</p></article><article><span class="learn-icon" aria-hidden="true">◎</span><h3>適用於誰？</h3><p>此處採用臺灣 18 歲以上成人標準。<br>兒童、孕婦及運動員需另作評估。</p></article></section>
+    <aside class="notice"><span aria-hidden="true">ⓘ</span><p>BMI 無法區分肌肉與脂肪，計算結果僅供參考，不作為醫療診斷。若有體位相關疑問，請諮詢醫師或營養師。</p></aside>
+  </main>
+  <footer><span>好好衡量，慢慢變好。</span><a href="https://www.hpa.gov.tw/542/9737/n" target="_blank" rel="noopener noreferrer">標準依據：衛生福利部國民健康署 ↗</a><span>MADE FOR YOUR EVERYDAY WELLBEING</span></footer>
+</body>
+</html>

@@ -31,6 +31,17 @@
         <div class="weight-range"><span>依你的身高，健康體重參考區間</span><strong id="healthy-range">53.5 – &lt; 69.4 <small>kg</small></strong><span class="range-note">18.5 ≤ BMI &lt; 24</span></div>
       </div>
     </section>
+    <section class="history-panel" aria-labelledby="history-title">
+      <div class="section-heading"><span class="step">02</span><h2 id="history-title">記下每一步</h2><span class="unit-badge" id="record-count">0 筆紀錄</span></div>
+      <p class="section-description">手動儲存這次的身高與體重，下次開啟時會帶入最近儲存的數據。紀錄只保存在此瀏覽器，清除網站資料後將無法復原。</p>
+      <div class="save-controls"><label for="measured-date">測量日期 <input type="date" id="measured-date" required></label><button type="button" id="save-record" class="calculate">儲存本次紀錄 ＋</button></div>
+      <p id="storage-message" role="status" aria-live="polite"></p>
+      <div class="chart-heading"><h3>BMI 變化趨勢</h3><span>依測量日期排序 · 最近 30 筆</span></div>
+      <div id="chart" class="chart"></div>
+      <p class="chart-note">每個點代表一筆紀錄，等距排列；淡綠區為健康體位（18.5 ≤ BMI &lt; 24）。下方表格提供完整數值。</p>
+      <div class="history-toolbar"><h3>測量紀錄</h3><button type="button" id="clear-records" class="text-button">清空全部紀錄</button></div>
+      <div class="table-scroll"><table><caption class="sr-only">已儲存的 BMI 測量紀錄，最新測量日期優先</caption><thead><tr><th scope="col">測量日期</th><th scope="col">身高 cm</th><th scope="col">體重 kg</th><th scope="col">BMI</th><th scope="col">體位</th><th scope="col">操作</th></tr></thead><tbody id="history-body"></tbody></table></div>
+    </section>
     <section class="learn"><div class="learn-title"><span class="eyebrow">A NUMBER, NOT THE WHOLE STORY</span><h2>數字之外，也照顧自己。</h2><p>BMI 是認識體位的起點，<br>健康還有更多面向。</p></div><article><span class="learn-icon" aria-hidden="true">↗</span><h3>BMI 怎麼計算？</h3><p>體重（公斤）÷ 身高（公尺）的平方。<br>例如 65 ÷ (1.7 × 1.7) ≈ 22.5。</p></article><article><span class="learn-icon" aria-hidden="true">◎</span><h3>適用於誰？</h3><p>此處採用臺灣 18 歲以上成人標準。<br>兒童、孕婦及運動員需另作評估。</p></article></section>
     <aside class="notice"><span aria-hidden="true">ⓘ</span><p>BMI 無法區分肌肉與脂肪，計算結果僅供參考，不作為醫療診斷。若有體位相關疑問，請諮詢醫師或營養師。</p></aside>
   </main>

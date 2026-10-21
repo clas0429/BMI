@@ -1,50 +1,98 @@
 <!doctype html>
 <html lang="zh-Hant">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#f5f6f0">
-  <meta name="description" content="輸入身高與體重，即時計算 BMI，了解臺灣成人健康體位區間。">
-  <title>好好衡量 · BMI 計算機</title>
-  <link rel="stylesheet" href="styles.css">
-  <script src="app.js" defer></script>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>BMI 計算器</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0; min-height: 100vh; display: grid; place-items: center;
+      padding: 24px; font-family: system-ui, -apple-system, "Noto Sans TC", sans-serif;
+      color: #17251f; background: linear-gradient(145deg, #e8f4ec, #f7f8f1 55%, #dcece1);
+    }
+    .card {
+      width: min(100%, 440px); padding: 34px; border-radius: 24px;
+      background: rgba(255,255,255,.92); box-shadow: 0 18px 60px #294b3620;
+    }
+    .eyebrow { color: #4d8b68; font-weight: 700; letter-spacing: .12em; font-size: 12px; }
+    h1 { margin: 8px 0; font-size: 30px; }
+    .intro { color: #718078; margin: 0 0 26px; line-height: 1.6; }
+    label { display: block; margin: 18px 0 8px; font-weight: 650; font-size: 14px; }
+    .input-wrap { position: relative; }
+    input {
+      width: 100%; height: 54px; border: 1px solid #d8e2db; border-radius: 12px;
+      padding: 0 56px 0 16px; font-size: 17px; outline: none; background: #fbfdfb;
+      transition: border .2s, box-shadow .2s;
+    }
+    input:focus { border-color: #55a574; box-shadow: 0 0 0 4px #55a57420; }
+    .unit { position: absolute; right: 16px; top: 50%; transform: translateY(-50%); color: #7e8b83; }
+    button {
+      width: 100%; height: 54px; border: 0; border-radius: 12px; margin-top: 24px;
+      color: white; background: #347b51; font-size: 16px; font-weight: 700; cursor: pointer;
+      transition: background .2s, transform .2s;
+    }
+    button:hover { background: #286641; transform: translateY(-1px); }
+    button:focus-visible { outline: 3px solid #9bc9a9; outline-offset: 3px; }
+    .result { display: none; margin-top: 22px; padding: 20px; border-radius: 16px; background: #eef6ef; text-align: center; }
+    .result.show { display: block; }
+    .result-label { color: #728078; font-size: 13px; }
+    .number { font-size: 48px; line-height: 1.15; font-weight: 750; color: #286641; margin: 5px 0; }
+    .category { font-weight: 700; }
+    .note { color: #718078; font-size: 12px; margin: 17px 0 0; line-height: 1.6; }
+    .error { color: #b42318; font-size: 13px; margin: 10px 0 0; min-height: 18px; }
+    @media (max-width: 480px) { .card { padding: 26px 22px; } }
+  </style>
 </head>
 <body>
-  <header class="site-header"><a class="brand" href="./"><span class="brand-icon" aria-hidden="true">◒</span> 好好衡量<span class="brand-en">WELL & BALANCED</span></a><span class="header-note"><i></i> 每個小改變，都是好的開始</span></header>
-  <main>
-    <section class="intro"><div class="eyebrow">A LITTLE CHECK-IN WITH YOURSELF</div><h1>認識身體，<br class="mobile-break">從一個數字開始<span>。</span></h1><p>不急著改變，先了解自己。<br>用身高與體重，看看你現在的健康體位。</p></section>
-    <section class="calculator" aria-label="BMI 計算機">
-      <form id="bmi-form" class="input-panel" novalidate>
-        <div class="section-heading"><span class="step">01</span><h2>你的身體數據</h2><span class="unit-badge">公制單位</span></div>
-        <p class="section-description">只要兩個數字，就能開始了解。</p>
-        <div class="field"><label for="height">身高 <span>HEIGHT</span></label><div class="number-field"><input id="height" name="height" type="number" inputmode="decimal" min="50" max="250" step="0.1" value="170" aria-describedby="height-help error"><span>cm</span></div><p id="height-help" class="field-help">輸入 50–250 公分</p></div>
-        <div class="field"><label for="weight">體重 <span>WEIGHT</span></label><div class="number-field"><input id="weight" name="weight" type="number" inputmode="decimal" min="10" max="500" step="0.1" value="65" aria-describedby="weight-help error"><span>kg</span></div><p id="weight-help" class="field-help">輸入 10–500 公斤</p></div>
-        <p id="error" class="error" role="alert"></p>
-        <button class="calculate" type="submit">計算我的 BMI <span aria-hidden="true">↗</span></button>
-        <div class="form-bottom"><span><span aria-hidden="true">⌑</span> 資料僅在你的裝置計算</span><button id="reset" type="button">重新輸入 ↺</button></div>
-      </form>
-      <div class="result-panel" aria-live="polite" aria-atomic="true">
-        <div class="result-top"><span class="eyebrow">YOUR BODY MASS INDEX</span><span class="result-icon" aria-hidden="true">✳</span></div>
-        <p class="result-label">你的 BMI 指數</p><div class="bmi-number" id="bmi-value">22.5</div>
-        <span class="status" id="status">● 健康體位</span><h2 id="result-title">剛剛好的平衡。</h2><p id="result-description">目前 BMI 落在成人健康體位區間。</p>
-        <div class="scale-wrap"><div class="scale-marker" id="scale-marker" aria-hidden="true">▼</div><div class="scale" aria-hidden="true"><span></span><span></span><span></span><span></span></div><div class="scale-labels"><span>過輕</span><span>健康</span><span>過重</span><span>肥胖</span></div><div class="scale-ticks"><span>18.5</span><span>24</span><span>27</span></div></div>
-        <div class="weight-range"><span>依你的身高，健康體重參考區間</span><strong id="healthy-range">53.5 – &lt; 69.4 <small>kg</small></strong><span class="range-note">18.5 ≤ BMI &lt; 24</span></div>
-      </div>
+  <main class="card">
+    <div class="eyebrow">健康小工具</div>
+    <h1>BMI 計算器</h1>
+    <p class="intro">輸入身高與體重，快速計算你的身體質量指數。</p>
+    <form id="bmi-form" novalidate>
+      <label for="height">身高</label>
+      <div class="input-wrap"><input id="height" type="number" inputmode="decimal" min="50" max="250" step="0.1" placeholder="例如 170" required><span class="unit">公分</span></div>
+      <label for="weight">體重</label>
+      <div class="input-wrap"><input id="weight" type="number" inputmode="decimal" min="10" max="500" step="0.1" placeholder="例如 65" required><span class="unit">公斤</span></div>
+      <p class="error" id="error" role="alert"></p>
+      <button type="submit">計算 BMI</button>
+    </form>
+    <section class="result" id="result" aria-live="polite">
+      <div class="result-label">你的 BMI</div>
+      <div class="number" id="bmi-value">—</div>
+      <div class="category" id="category"></div>
     </section>
-    <section class="history-panel" aria-labelledby="history-title">
-      <div class="section-heading"><span class="step">02</span><h2 id="history-title">記下每一步</h2><span class="unit-badge" id="record-count">0 筆紀錄</span></div>
-      <p class="section-description">手動儲存這次的身高與體重，下次開啟時會帶入最近儲存的數據。紀錄只保存在此瀏覽器，清除網站資料後將無法復原。</p>
-      <div class="save-controls"><label for="measured-date">測量日期 <input type="date" id="measured-date" required></label><button type="button" id="save-record" class="calculate">儲存本次紀錄 ＋</button></div>
-      <p id="storage-message" role="status" aria-live="polite"></p>
-      <div class="chart-heading"><h3>BMI 變化趨勢</h3><span>依測量日期排序 · 最近 30 筆</span></div>
-      <div id="chart" class="chart"></div>
-      <p class="chart-note">每個點代表一筆紀錄，等距排列；淡綠區為健康體位（18.5 ≤ BMI &lt; 24）。下方表格提供完整數值。</p>
-      <div class="history-toolbar"><h3>測量紀錄</h3><button type="button" id="clear-records" class="text-button">清空全部紀錄</button></div>
-      <div class="table-scroll"><table><caption class="sr-only">已儲存的 BMI 測量紀錄，最新測量日期優先</caption><thead><tr><th scope="col">測量日期</th><th scope="col">身高 cm</th><th scope="col">體重 kg</th><th scope="col">BMI</th><th scope="col">體位</th><th scope="col">操作</th></tr></thead><tbody id="history-body"></tbody></table></div>
-    </section>
-    <section class="learn"><div class="learn-title"><span class="eyebrow">A NUMBER, NOT THE WHOLE STORY</span><h2>數字之外，也照顧自己。</h2><p>BMI 是認識體位的起點，<br>健康還有更多面向。</p></div><article><span class="learn-icon" aria-hidden="true">↗</span><h3>BMI 怎麼計算？</h3><p>體重（公斤）÷ 身高（公尺）的平方。<br>例如 65 ÷ (1.7 × 1.7) ≈ 22.5。</p></article><article><span class="learn-icon" aria-hidden="true">◎</span><h3>適用於誰？</h3><p>此處採用臺灣 18 歲以上成人標準。<br>兒童、孕婦及運動員需另作評估。</p></article></section>
-    <aside class="notice"><span aria-hidden="true">ⓘ</span><p>BMI 無法區分肌肉與脂肪，計算結果僅供參考，不作為醫療診斷。若有體位相關疑問，請諮詢醫師或營養師。</p></aside>
+    <p class="note">BMI 僅供健康管理參考，無法取代醫療診斷；兒童、孕婦及運動員等族群，建議諮詢專業醫療人員。</p>
   </main>
-  <footer><span>好好衡量，慢慢變好。</span><a href="https://www.hpa.gov.tw/542/9737/n" target="_blank" rel="noopener noreferrer">標準依據：衛生福利部國民健康署 ↗</a><span>MADE FOR YOUR EVERYDAY WELLBEING</span></footer>
+  <script>
+    const form = document.querySelector('#bmi-form');
+    const heightInput = document.querySelector('#height');
+    const weightInput = document.querySelector('#weight');
+    const result = document.querySelector('#result');
+    const error = document.querySelector('#error');
+
+    form.addEventListener('submit', (event) => {
+      event.preventDefault();
+      const heightCm = Number(heightInput.value);
+      const weightKg = Number(weightInput.value);
+      if (!heightCm || !weightKg || heightCm < 50 || heightCm > 250 || weightKg < 10 || weightKg > 500) {
+        error.textContent = '請輸入有效數值（身高 50–250 公分、體重 10–500 公斤）。';
+        result.classList.remove('show');
+        return;
+      }
+      error.textContent = '';
+      const bmi = weightKg / ((heightCm / 100) ** 2);
+      let category;
+      if (bmi < 18.5) category = '體重過輕';
+      else if (bmi < 24) category = '健康體位';
+      else if (bmi < 27) category = '體重過重';
+      else if (bmi < 30) category = '輕度肥胖';
+      else if (bmi < 35) category = '中度肥胖';
+      else category = '重度肥胖';
+      document.querySelector('#bmi-value').textContent = bmi.toFixed(1);
+      document.querySelector('#category').textContent = category;
+      result.classList.add('show');
+    });
+  </script>
 </body>
 </html>
